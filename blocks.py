@@ -1,30 +1,36 @@
 import pygame
 from random import choice
 
+
+colors = [
+    (255, 0, 0),
+    (0, 255, 0),
+    (0, 0, 255)
+]
+
 class Block():
-    def __init__(self):
-        self.shapes = [
-            [(0, 0), (1, 0), (2, 0), (3, 0)],
-            [(0, 0), (1, 0), (0, 1), (1, 1)],
-            [(0, 0), (1, 0), (2, 0), (2, 1)],
-            [(0, 0), (1, 0), (2, 0), (1, 1)]
-        ]
-        self.colors = [
-            (255, 0, 0),
-            (0, 255, 0),
-            (0, 0, 255)
-        ]
+    x = 0
+    y = 0
 
-    def get_random_color(self):
-        colors = self.colors
+    figures = [
+        [[1, 5, 9, 13], [4, 5, 6, 7]],
+        [[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]],
+        [[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]],  
+        [[1, 4, 5, 6], [1, 4, 5, 9], [4, 5, 6, 9], [1, 5, 6, 9]],
+        [[1, 2, 5, 6]],
+    ]
 
-        return choice(colors)
 
-    def draw(self, surface, block_size):
-        shape = choice(self.shapes)
-        color = Block().get_random_color()
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.type = choice(self.figures)
+        self.color = choice(colors)
+        self.rotation = 0
 
-        for x, y in shape:
-            print(f'x: {x} and y: {y}')
-            pygame.draw.rect(surface, color, pygame.Rect(x, y, block_size, block_size))
-    
+
+    def image(self):
+        return self.figures[self.type][self.rotation]
+
+    def rotate(self):
+        self.rotation = (self.rotation + 1) % len(self.figures[self.type])
